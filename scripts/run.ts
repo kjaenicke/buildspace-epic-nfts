@@ -4,8 +4,13 @@ const main = async () => {
   const nftContractFactory = await ethers.getContractFactory("MyEpicNFT");
   const nftContract = await nftContractFactory.deploy();
   await nftContract.deployed();
-
   console.log(`EpicNFT contract deployed to: ${nftContract.address}`);
+
+  let txn = await nftContract.makeAnEpicNFT();
+  await txn.wait();
+
+  txn = await nftContract.makeAnEpicNFT();
+  await txn.wait();
 };
 
 const runMain = async () => {

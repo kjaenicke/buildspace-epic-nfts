@@ -1,22 +1,26 @@
 import { ethers } from "hardhat";
 
-async function main() {
-  // If this script is run directly using `node` you may want to call compile
-  // manually to make sure everything is compiled
-  // await hre.run('compile');
+const main = async () => {
+  const nftContractFactory = await ethers.getContractFactory("MyEpicNFT");
+  const nftContract = await nftContractFactory.deploy();
+  await nftContract.deployed();
+  console.log(`EpicNFT contract deployed to: ${nftContract.address}`);
 
-  // We get the contract to deploy
-  const Greeter = await ethers.getContractFactory("Greeter");
-  const greeter = await Greeter.deploy("Hello, Hardhat!");
+  let txn = await nftContract.makeAnEpicNFT();
+  await txn.wait();
 
-  await greeter.deployed();
+  txn = await nftContract.makeAnEpicNFT();
+  await txn.wait();
+};
 
-  console.log("Greeter deployed to:", greeter.address);
-}
+const runMain = async () => {
+  try {
+    await main();
+    process.exit(0);
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+};
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+runMain();

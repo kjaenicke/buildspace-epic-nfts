@@ -21,6 +21,12 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 
 const config: HardhatUserConfig = {
   solidity: "0.8.4",
+  networks: {
+    rinkeby: {
+      url: process.env.ALCHEMY_API_URL,
+      accounts: [String(process.env.PRIVATE_ACCOUNT_KEY)],
+    },
+  },
 };
 
 export default config;
